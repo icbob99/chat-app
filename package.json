@@ -1,18 +1,19 @@
 {
   "name": "chat-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Chat App",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "env-cmd ./config/dev.env nodemon src/index.js -e js,hbs"
+    "dev": "env-cmd  -f ./config/dev.env nodemon src/index.js -e js,hbs"    ,
+    "start": "env-cmd  -f ./.env node src/index.js "
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/icbob99/chat-app.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Me",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/icbob99/chat-app/issues"
