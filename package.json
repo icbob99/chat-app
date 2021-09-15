@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "env-cmd  -f ./config/dev.env nodemon src/index.js -e js,hbs"    ,
+    "dev": "env-cmd  -f ./config/dev.env nodemon src/index.js -e js,hbs",
     "start": "env-cmd  -f ./.env node src/index.js "
   },
   "repository": {
@@ -21,7 +21,8 @@
   "homepage": "https://github.com/icbob99/chat-app#readme",
   "dependencies": {
     "env-cmd": "^10.1.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
