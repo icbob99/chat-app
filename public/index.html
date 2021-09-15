@@ -12,10 +12,20 @@
     <form id="message-form">
         <input id="input" autocomplete="off" name="message" placeholder="Message">
         <button>Message</button>
+
+
+
     </form>
+
+    <button id="send-location">Send location</button><br />
+
+    <button id="find-me">Show my location</button><br />
+    <p id="status"></p>
+    <a id="map-link" target="_blank"></a>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/chat.js"></script>
+    <script src="js/geoFindMe.js"></script>
 </body>
 
 </html>
