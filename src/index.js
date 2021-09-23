@@ -2,6 +2,9 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 
+const {generateMessage} = require('./utils/messages')
+
+
 const app = express();
 const server = http.createServer(app);
 const { Server } = require('socket.io');
@@ -15,10 +18,11 @@ app.use(express.static(publicDirectoryPath));
 
 
 io.on('connection', (socket) => {
-    socket.broadcast.emit('message', 'Hi new user has join!')
+    socket.emit('message', generateMessage('Welcome!'))
+    socket.broadcast.emit('message', generateMessage('Hi, a new user has join!'))
 
     socket.on('disconnect', () => {
-        socket.broadcast.emit('message', 'A user has left!')
+        socket.broadcast.emit('message', generateMessage( 'A user has left!'))
     });
 
     socket.on('sendMessage', (msg, callback) => {
@@ -28,14 +32,16 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed!');
         }
 
-        socket.broadcast.emit('message', msg);
-        callback('Delivered');
+        socket.broadcast.emit('message', generateMessage(  msg));
+        // callback('Delivered');
+        callback()
     });
 
     socket.on('sendLocation', (coords, callback) => {
         // socket.broadcast.emit('message', `https://google.com?maps?q=${coords.latitude},${coords.longitude}`);
         socket.broadcast.emit('locationMessage', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`);
-        callback('Location Shared!');
+        // callback('Location Shared!');
+        callback()
     });
 });
 

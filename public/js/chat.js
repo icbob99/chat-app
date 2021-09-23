@@ -12,10 +12,11 @@ const $urls = document.querySelector('#url');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const urlTemplate = document.querySelector('#url-template').innerHTML;
 
-socket.on('message', (msg) => {
-    console.log(msg);    
+socket.on('message', (message) => {
+    console.log(message);
     const html = Mustache.render(messageTemplate, {
-        message: msg
+        message: message.text,
+        createdAt: moment  ( message.createdAt).format('h:mm A')
     });    
     $messages.insertAdjacentHTML('beforeend', html);
 });
