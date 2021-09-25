@@ -11,13 +11,19 @@ const $urls = document.querySelector('#url');
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const urlTemplate = document.querySelector('#url-template').innerHTML;
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML;
+
+//Options
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
+
 
 socket.on('message', (message) => {
     console.log(message);
     const html = Mustache.render(messageTemplate, {
         message: message.text,
-        createdAt: moment  ( message.createdAt).format('h:mm A')
-    });    
+        userName: message.userName,
+        createdAt: moment(message.createdAt).format('h:mm A')
+    });
     $messages.insertAdjacentHTML('beforeend', html);
 });
 
@@ -26,9 +32,21 @@ socket.on('locationMessage', (locationMessage) => {
 
     const html = Mustache.render(urlTemplate, {
         url: locationMessage.url,
+        userName: locationMessage.userName,
         createdAt: moment(locationMessage.createdAt).format('h:mm A')
     });
     $messages.insertAdjacentHTML('beforeend', html);
+})
+
+socket.on('roomData', ({ room, users }) => {
+    // console.log(room)
+    // console.log(users)
+    const html = Mustache.render(sidebarTemplate, {
+        room,
+        users
+    })
+
+    document.querySelector('#sidebar').innerHTML = html
 })
 
 $messageForm.addEventListener('submit', function (e) {
@@ -60,7 +78,7 @@ $locationButton.addEventListener('click', function (e) {
     } else {
         $locationButton.setAttribute('disabled', 'disabled');
         navigator.geolocation.getCurrentPosition(success, error);
-       
+
     }
 })
 
@@ -81,3 +99,10 @@ function success(position) {
         $locationButton.removeAttribute('disabled');
     });
 }
+
+socket.emit('join', { username, room }, (error) => {
+    if (error) {
+        alert(error)
+        location.href = '/'
+    }
+})
